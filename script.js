@@ -5,13 +5,14 @@ const green = document.getElementById('green')
 const btnEmpezar = document.getElementById('btnEmpezar')
 
 class Game {
-    constructor() {
+    constructor(){
         this.initialize()
         this.generateSequence()
         this.nextLevel()
     }
 
-    initialize() {
+    initialize(){
+        this.chooseColor = this.chooseColor.bind(this)
         btnEmpezar.classList.add('hide')
         this.level = 1
         this.colors = {
@@ -28,6 +29,7 @@ class Game {
 
     nextLevel(){
         this.iluminateSequence()
+        this.agregarEventsClick()
     }
 
     transformNumber(number){
@@ -58,7 +60,18 @@ class Game {
     turnOffColor(color){
         this.colors[color].classList.remove('light')
     }
-}
+
+    agregarEventsClick(){
+        this.colors.blue.addEventListener('click', this.chooseColor)
+        this.colors.violet.addEventListener('click', this.chooseColor)
+        this.colors.orange.addEventListener('click', this.chooseColor)
+        this.colors.green.addEventListener('click', this.chooseColor)
+    }
+
+    chooseColor(ev){ 
+        console.log(this)
+    }  
+} 
 
 function startGame(){
    window.game = new Game()
