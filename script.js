@@ -5,8 +5,10 @@ const green = document.getElementById('green')
 const btnEmpezar = document.getElementById('btnEmpezar')
 const finalLevel = 10
 
+
 class Game {
     constructor() {
+        this.initialize = this.initialize.bind(this)
         this.initialize()
         this.generateSequence()
         setTimeout(this.nextLevel, 500)
@@ -16,13 +18,21 @@ class Game {
     initialize(){
         this.nextLevel = this.nextLevel.bind(this)
         this.chooseColor = this.chooseColor.bind(this)
-        btnEmpezar.classList.add('hide')
+        this.toggleBtnEmpezar()
         this.level = 1
         this.colors = {
             blue, 
             violet,
             orange,
             green
+        }
+    }
+
+    toggleBtnEmpezar(){
+        if(btnEmpezar.classList.contains('hide')){
+            btnEmpezar.classList.remove('hide')
+        } else {
+            btnEmpezar.classList.add('hide')
         }
     }
 
@@ -101,18 +111,31 @@ class Game {
                 this.level++   
                 this.removeEventsClick() 
                 if (this.level ===(finalLevel + 1)) {
-                    //gano!
+                    this.winner()
                 } else {
                     setTimeout(this.nextLevel, 1500)
                 }   
             }
         } else {
-            //Perdio:(
+            this.looser()
         }
     }  
-} 
+    winner(){
+    swal('Platzi', 'Congratulations, you win!', 'success')
+    .then(() =>{
+        this.initialize()
+    })
+}
+  
+  loser(){
+  swal('Platzi', 'Sorry, you are a looser!', 'error');     
+  .then(() =>{
+    this.initialize()
+    })
+  }
+}
+     
 
-function startGame() {
+function startGame(){
    window.game = new Game()
-
 }

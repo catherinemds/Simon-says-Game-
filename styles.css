@@ -20,6 +20,7 @@ body {
     width: 50%;
     height: 50%;
     display: inline-block;
+    cursor: pointer;
 }
 
 .left {
@@ -75,4 +76,8 @@ body {
 
 .hide {
     display: none;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
 }
