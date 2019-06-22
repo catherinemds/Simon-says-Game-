@@ -3,15 +3,18 @@ const violet = document.getElementById('violet')
 const orange = document.getElementById('orange')
 const green = document.getElementById('green')
 const btnEmpezar = document.getElementById('btnEmpezar')
+const finalLevel = 10
 
 class Game {
-    constructor(){
+    constructor() {
         this.initialize()
         this.generateSequence()
-        this.nextLevel()
+        setTimeout(this.nextLevel, 500)
+        
     }
 
     initialize(){
+        this.nextLevel = this.nextLevel.bind(this)
         this.chooseColor = this.chooseColor.bind(this)
         btnEmpezar.classList.add('hide')
         this.level = 1
@@ -24,10 +27,11 @@ class Game {
     }
 
     generateSequence() {
-        this.sequence = new Array(10).fill(0).map(n => Math.floor(Math.random() * 4))
+        this.sequence = new Array(finalLevel).fill(0).map(n => Math.floor(Math.random() * 4))
     }
 
     nextLevel(){
+        this.sublevel = 0
         this.iluminateSequence()
         this.agregarEventsClick()
     }
@@ -42,6 +46,18 @@ class Game {
                 return 'orange'
             case 3: 
                 return 'green'
+        }
+    }
+    transformColor(color){
+        switch(color) {
+            case 'blue':
+                return 0
+            case 'violet':
+                return 1
+            case 'orange':
+                return 2
+            case 'green': 
+                return 3
         }
     }
 
@@ -68,12 +84,35 @@ class Game {
         this.colors.green.addEventListener('click', this.chooseColor)
     }
 
+    removeEventsClick(){
+        this.colors.blue.removeEventListener('click', this.chooseColor)
+        this.colors.violet.removeEventListener('click', this.chooseColor)
+        this.colors.orange.removeEventListener('click', this.chooseColor)
+        this.colors.green.removeEventListener('click', this.chooseColor) 
+    }
+
     chooseColor(ev){ 
-        console.log(this)
+        const colorName = ev.target.dataset.color
+        const colorNumber = this.transformColor(colorName)
+        this.iluminateColor(colorName)
+        if (colorNumber === this.sequence[this.sublevel]){
+            this.sublevel++
+            if (this.sublevel === this.level){
+                this.level++   
+                this.removeEventsClick() 
+                if (this.level ===(finalLevel + 1)) {
+                    //gano!
+                } else {
+                    setTimeout(this.nextLevel, 1500)
+                }   
+            }
+        } else {
+            //Perdio:(
+        }
     }  
 } 
 
-function startGame(){
+function startGame() {
    window.game = new Game()
 
 }
