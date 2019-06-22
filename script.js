@@ -111,30 +111,28 @@ class Game {
                 this.level++   
                 this.removeEventsClick() 
                 if (this.level ===(finalLevel + 1)) {
-                    this.winner()
-                } else {
-                    setTimeout(this.nextLevel, 1500)
-                }   
-            }
-        } else {
-            this.looser()
+                    this.ganoElJuego();
+                    this.toggleBtnEmpezar();
+                  } else {
+                    setTimeout(this.nextLevel.bind(this), 1500);
         }
-    }  
-    winner(){
-    swal('Platzi', 'Congratulations, you win!', 'success')
-    .then(() =>{
-        this.initialize()
-    })
+    }
+ }
+    else {
+        this.perdioElJuego();
+        this.toggleBtnEmpezar();
+    }
 }
-  
-  loser(){
-  swal('Platzi', 'Sorry, you are a looser!', 'error');     
-  .then(() =>{
-    this.initialize()
-    })
-  }
+    ganoElJuego(){
+        swal("Congratulations!", "You win!", "success")
+
 }
-     
+          
+    perdioElJuego(){
+        swal("Ups!", "Sorry, you are a looser!", "error")
+    }
+}
+           
 
 function startGame(){
    window.game = new Game()
